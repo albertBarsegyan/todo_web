@@ -1,7 +1,14 @@
-import "./App.css";
+import AuthenticatedAppRoutes from "./routes/authenticatedApp.routes";
+import UnauthenticatedApp from "./routes/unauthenticatedApp";
 
 function App() {
-  return <div className="App">app started</div>;
+  const user = null;
+
+  if (user) {
+    return <AuthenticatedAppRoutes />;
+  }
+
+  return <UnauthenticatedApp />;
 }
 
 export default App;
