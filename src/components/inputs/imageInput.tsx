@@ -1,11 +1,13 @@
-import { forwardRef, useState } from "react";
-import Button from "../buttons/button";
+import { forwardRef, useEffect, useState } from 'react';
+
+import Button from '../buttons/button';
 
 interface IFileInputProps {
   name: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder?: string;
   labelText?: string;
+  isEmptyImage?: boolean;
   errorMessage: string;
 }
 
@@ -16,11 +18,12 @@ export const ImageInput = forwardRef(
       placeholder,
       labelText,
       errorMessage,
+      isEmptyImage,
       ...props
     }: IFileInputProps,
-    ref: React.LegacyRef<HTMLInputElement>
+    ref: React.LegacyRef<HTMLInputElement>,
   ) => {
-    const [imageUrl, setImageUrl] = useState("");
+    const [imageUrl, setImageUrl] = useState('');
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const uploadedFile = e?.target?.files?.[0];
@@ -39,7 +42,15 @@ export const ImageInput = forwardRef(
       }
     };
 
-    const removeImage = () => setImageUrl("");
+    const removeImage = () => {
+      setImageUrl('');
+    };
+
+    useEffect(() => {
+      if (isEmptyImage) {
+        setImageUrl('');
+      }
+    }, [isEmptyImage]);
 
     return (
       <div className="flex justify-center my-8">
@@ -61,7 +72,7 @@ export const ImageInput = forwardRef(
                   </div>
                 </div>
               ) : (
-                <label className="flex flex-col w-full h-32 border-4 border-purple-400 border-dashed hover:bg-gray-100 hover:border-gray-300 duration-75">
+                <label className="flex flex-col w-full h-32 duration-75 border-4 border-purple-400 border-dashed hover:bg-gray-100 hover:border-gray-300">
                   <div className="flex flex-col items-center justify-center pt-7">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +96,7 @@ export const ImageInput = forwardRef(
                     <div>
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/x-png,image/gif,image/jpeg,image/jpg"
                         ref={ref}
                         onChange={handleChange}
                         className="opacity-0"
@@ -93,7 +104,7 @@ export const ImageInput = forwardRef(
                       />
                     </div>
                     <div className="py-2 text-center">
-                      <span className="text-red-400 text-sm">
+                      <span className="text-sm text-red-400">
                         {errorMessage}
                       </span>
                     </div>
@@ -105,5 +116,5 @@ export const ImageInput = forwardRef(
         </div>
       </div>
     );
-  }
+  },
 );

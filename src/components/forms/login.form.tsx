@@ -1,25 +1,28 @@
-import { FieldValues, useForm } from "react-hook-form";
-import { LoginFormFieldNames } from "../../constants/form.constants";
-import { ForwardInput } from "../inputs/input";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { loginFormSchema } from "../../yupSchemas/login.schema";
-import Button from "../buttons/button";
-import { Link } from "react-router-dom";
-import { RoutePaths } from "../../constants/route.constants";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { FieldValues, useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
+
+import { LoginFormFieldNames } from '../../constants/form.constants';
+import { RoutePaths } from '../../constants/route.constants';
+import { useAuth } from '../../hooks/useAuth';
+import { loginFormSchema } from '../../yupSchemas/login.schema';
+import Button from '../buttons/button';
+import { ForwardInput } from '../inputs/input';
 
 export default function LoginForm() {
+  const { login, loading } = useAuth();
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(loginFormSchema), mode: "onChange" });
+  } = useForm({ resolver: yupResolver(loginFormSchema), mode: 'onChange' });
 
-  const onSubmit = (data: FieldValues) => {
-    console.log("data", data);
+  const onSubmit = async (data: FieldValues) => {
+    login(data);
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="w-1/3 shadow-md p-5">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-1/3 p-5 shadow-md">
       <ForwardInput
         placeholder="Provide email"
         errorMessage={errors?.[LoginFormFieldNames.email]?.message}
@@ -32,8 +35,8 @@ export default function LoginForm() {
         errorMessage={errors?.[LoginFormFieldNames?.password]?.message}
         {...register(LoginFormFieldNames.password)}
       />
-      <div className="w-full flex flex-row justify-between items-center">
-        <Button type="submit">Login</Button>
+      <div className="flex flex-row items-center justify-between w-full">
+        <Button type="submit">{loading ? 'Loading...' : 'Login'}</Button>
 
         <div>
           <span className="mr-2 text-purple-400">Do you want to</span>

@@ -1,14 +1,13 @@
-import AuthenticatedAppRoutes from "./routes/authenticatedApp.routes";
-import UnauthenticatedApp from "./routes/unauthenticatedApp";
+import { SessionKeys } from './constants/session.constants';
+import useStorage from './hooks/useStorage';
+import AuthenticatedAppRoutes from './routes/authenticatedApp.routes';
+import UnauthenticatedApp from './routes/unauthenticatedApp';
 
 function App() {
-  const user = null;
+  const { getDataFromStorage } = useStorage();
+  const userFromSession = getDataFromStorage(SessionKeys.user);
 
-  if (user) {
-    return <AuthenticatedAppRoutes />;
-  }
-
-  return <UnauthenticatedApp />;
+  return userFromSession ? <AuthenticatedAppRoutes /> : <UnauthenticatedApp />;
 }
 
 export default App;

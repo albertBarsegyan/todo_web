@@ -1,6 +1,7 @@
-import React, { ReactElement } from "react";
-import Footer from "./footer";
-import Header from "./header";
+import React, { ReactElement } from 'react';
+
+import Footer from './footer';
+import Header from './header';
 
 export default function Layout({ children }: { children: ReactElement }) {
   return (
