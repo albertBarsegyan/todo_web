@@ -1,7 +1,3 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import { FieldValues, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
-
 import { LoginFormFieldNames } from '../../constants/form.constants';
 import { RoutePaths } from '../../constants/route.constants';
 import { useAuth } from '../../hooks/useAuth';
@@ -9,8 +5,14 @@ import { loginFormSchema } from '../../yupSchemas/login.schema';
 import Button from '../buttons/button';
 import { ForwardInput } from '../inputs/input';
 
+import { usePopup } from '../../hooks/usePopup';
+import { Link } from 'react-router-dom';
+import { FieldValues, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 export default function LoginForm() {
   const { login, loading } = useAuth();
+  const { providePopupSettings } = usePopup();
   const {
     register,
     handleSubmit,
@@ -18,7 +20,8 @@ export default function LoginForm() {
   } = useForm({ resolver: yupResolver(loginFormSchema), mode: 'onChange' });
 
   const onSubmit = async (data: FieldValues) => {
-    login(data);
+    const popupData = await login(data);
+    providePopupSettings(popupData);
   };
 
   return (

@@ -1,8 +1,7 @@
+import { RoutePaths } from '../constants/route.constants';
 import React from 'react';
 
 import { Link } from 'react-router-dom';
-
-import { RoutePaths } from '../constants/route.constants';
 
 export default function ErrorPage() {
   return (

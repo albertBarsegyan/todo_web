@@ -1,7 +1,6 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-
 import { RoutePaths } from '../constants/route.constants';
 import Home from '../pages/home.page';
+import { Routes, Route, Navigate } from 'react-router-dom';
 
 export default function AuthenticatedApp() {
   return (

@@ -1,9 +1,8 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
-
 import { RoutePaths } from '../constants/route.constants';
 import ErrorPage from '../pages/404.page';
 import Login from '../pages/login.page';
 import Registration from '../pages/registration.page';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 export default function UnauthenticatedApp() {
   return (

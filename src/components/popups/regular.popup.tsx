@@ -1,8 +1,7 @@
+import { RegularPopupVariants } from '../../constants/componentVariants.constants';
 import React from 'react';
 
 import classNames from 'classnames';
-
-import { RegularPopupVariants } from '../../constants/componentVariants.constants';
 
 export default function RegularPopup({
   popupVariant,

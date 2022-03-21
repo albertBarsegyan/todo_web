@@ -1,6 +1,5 @@
-import { forwardRef, HTMLInputTypeAttribute } from 'react';
-
 import { InputVariants } from '../../constants/componentVariants.constants';
+import { forwardRef } from 'react';
 
 const inputStyles =
   'border border-purple-400 placeholder:text-purple-300 text-purple-400 focus:border-green-500  outline-none block w-full px-2 py-1 sm:text-md rounded-sm focus:text-green-500 duration-75';
@@ -26,12 +25,8 @@ export const ForwardInput = forwardRef<React.LegacyRef<HTMLInputElement>, any>(
 
 export default function Input({
   variant = InputVariants.REGULAR,
-  errorMessage,
+  errorMessage = '',
   ...props
-}: {
-  variant?: InputVariants;
-  errorMessage?: string;
-  type?: HTMLInputTypeAttribute;
 }) {
   const renderInputVariants = (inputVariant: InputVariants) => {
     switch (inputVariant) {

@@ -1,3 +1,4 @@
+import { ITodo } from './todo.interfaces';
 export interface IUser {
   created_at: string;
   email: string;
@@ -5,6 +6,7 @@ export interface IUser {
   id: number;
   last_name: number;
   profile_picture: string;
+  todos: ITodo[];
 }
 
 export interface ILoginUser {

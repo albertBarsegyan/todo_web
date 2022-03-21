@@ -1,6 +1,5 @@
-import { forwardRef, useEffect, useState } from 'react';
-
 import Button from '../buttons/button';
+import { forwardRef, useEffect, useState } from 'react';
 
 interface IFileInputProps {
   name: string;
@@ -21,7 +20,7 @@ export const ImageInput = forwardRef(
       isEmptyImage,
       ...props
     }: IFileInputProps,
-    ref: React.LegacyRef<HTMLInputElement>,
+    ref: React.LegacyRef<HTMLInputElement>
   ) => {
     const [imageUrl, setImageUrl] = useState('');
 
@@ -116,5 +115,5 @@ export const ImageInput = forwardRef(
         </div>
       </div>
     );
-  },
+  }
 );

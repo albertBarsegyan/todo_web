@@ -1,3 +1,22 @@
+import { Endpoints } from '../constants/endpoint.constants';
+import { RoutePaths } from '../constants/route.constants';
+
+import { IUser } from '../interfaces/user.interfaces';
+import {
+  deleteRequest,
+  getRequest,
+  postRequest,
+} from '../services/request.services';
+import { localStorageKeys } from '../constants/localStorage.constants';
+import {
+  getDataFromStorage,
+  removeDataFromStorage,
+  saveDataToStorage,
+} from '../helpers/storage.helpers';
+
+import { RegularPopupVariants } from '../constants/componentVariants.constants';
+import { useNavigate } from 'react-router-dom';
+import { FieldValues } from 'react-hook-form';
 import {
   createContext,
   ReactElement,
@@ -6,22 +25,9 @@ import {
   useState,
 } from 'react';
 
-import { FieldValues } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-
-import { RegularPopupVariants } from '../constants/componentVariants.constants';
-import { Endpoints } from '../constants/endpoint.constants';
-import { RoutePaths } from '../constants/route.constants';
-import { SessionKeys } from '../constants/session.constants';
-import { IUser } from '../interfaces/user.interfaces';
-import { postData } from '../services/request.services';
-import { usePopup } from './usePopup';
-import useStorage from './useStorage';
-
 interface IAuthContext {
   user: null | IUser;
-  login: (userData: FieldValues) => void;
-
+  login: (userData: FieldValues) => Promise<any>;
   logout: () => void;
   loading: boolean;
 }
@@ -29,7 +35,7 @@ interface IAuthContext {
 export const authContext = createContext<IAuthContext>({
   user: null,
   loading: false,
-  login: () => {},
+  login: async () => {},
   logout: () => {},
 });
 
@@ -40,51 +46,67 @@ export const useAuth = () => {
 function useAuthProvider() {
   const [user, setUser] = useState<null | IUser>(null);
   const [loading, setLoading] = useState(false);
-  const { providePopupSettings } = usePopup();
-  const navigate = useNavigate();
-  const {
-    saveDataToStorage,
-    // getDataFromStorage,
-    removeDataFromStorage,
-  } = useStorage();
 
-  // const userIdFromSession = getDataFromStorage(SessionKeys.user);
+  const tokenFromStorage = getDataFromStorage(localStorageKeys.userToken);
+
+  const navigate = useNavigate();
 
   const login = async (userData: FieldValues) => {
     setLoading(true);
-    const { data, status, message } = await postData(
-      Endpoints.baseUrl('login'),
-      userData
-    );
+    const response = await postRequest(Endpoints.login(), userData);
+    const { accessToken, data, message, status } = response.data;
 
-    const isSuccess = status === 'success';
+    const isStatusSuccess = status === 'success';
 
-    providePopupSettings({
-      isVisible: true,
+    if (accessToken) {
+      setUser(data);
+      saveDataToStorage(localStorageKeys.userToken, accessToken);
+    }
+    setLoading(false);
+
+    return {
       text: message,
-      popupVariant: isSuccess
+      popupVariant: isStatusSuccess
         ? RegularPopupVariants.SUCCESS
         : RegularPopupVariants.ERROR,
-    });
-
-    if (isSuccess) {
-      setUser(data);
-      saveDataToStorage(SessionKeys.user, data.id);
-    }
-
-    setLoading(false);
+    };
   };
 
-  const logout = () => {
+  const logout = async () => {
+    const { status, message } = await (await deleteRequest(Endpoints.logout()))
+      .data;
+
+    const isStatusSuccess = status === 'success';
+
+    removeDataFromStorage(localStorageKeys.userToken);
     setUser(null);
-    removeDataFromStorage(SessionKeys.user);
+
+    return {
+      text: message,
+      popupVariant: isStatusSuccess
+        ? RegularPopupVariants.SUCCESS
+        : RegularPopupVariants.ERROR,
+    };
   };
 
   useEffect(() => {
     if (user) {
       navigate(RoutePaths.HOME);
+      setLoading(false);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (tokenFromStorage) {
+      setLoading(true);
+      getRequest(Endpoints.user('me')).then(response => {
+        const { data: userData } = response.data;
+
+        setUser(userData);
+        setLoading(false);
+      });
+    }
+  }, []);
 
   return {
     user,

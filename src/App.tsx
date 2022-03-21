@@ -1,13 +1,21 @@
-import { SessionKeys } from './constants/session.constants';
-import useStorage from './hooks/useStorage';
-import AuthenticatedAppRoutes from './routes/authenticatedApp.routes';
 import UnauthenticatedApp from './routes/unauthenticatedApp';
+// import { SessionKeys } from './constants/session.constants';
+import { useAuth } from './hooks/useAuth';
+import AuthenticatedAppRoutes from './routes/authenticatedApp.routes';
+import Spinner from './components/icons/spinner.icon';
+import React from 'react';
+// import useStorage from './hooks/useStorage';
 
 function App() {
-  const { getDataFromStorage } = useStorage();
-  const userFromSession = getDataFromStorage(SessionKeys.user);
+  // const { getDataFromStorage } = useStorage();
+  const { user, loading } = useAuth();
+  // const userFromSession = getDataFromStorage(SessionKeys.user);
 
-  return userFromSession ? <AuthenticatedAppRoutes /> : <UnauthenticatedApp />;
+  if (loading) {
+    return <Spinner isFullScreen />;
+  }
+
+  return user ? <AuthenticatedAppRoutes /> : <UnauthenticatedApp />;
 }
 
 export default App;

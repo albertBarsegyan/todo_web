@@ -1,21 +1,19 @@
-import { useEffect, useState } from 'react';
-
-import { yupResolver } from '@hookform/resolvers/yup';
-import produce from 'immer';
-import { useForm } from 'react-hook-form';
-import { Link, useNavigate } from 'react-router-dom';
-
 import { RegularPopupVariants } from '../../constants/componentVariants.constants';
 import { Endpoints } from '../../constants/endpoint.constants';
 import { RegisterFormFieldNames } from '../../constants/form.constants';
 import { RoutePaths } from '../../constants/route.constants';
 import { fileToBase64 } from '../../helpers/file.helpers';
 import { usePopup } from '../../hooks/usePopup';
-import { postData } from '../../services/request.services';
+import { postRequest } from '../../services/request.services';
 import { registerFormSchema } from '../../yupSchemas/register.schema';
 import Button from '../buttons/button';
 import { ImageInput } from '../inputs/imageInput';
 import { ForwardInput } from '../inputs/input';
+import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import produce from 'immer';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useState } from 'react';
 
 export default function RegistrationForm() {
   const [loading, setLoading] = useState(false);
@@ -39,10 +37,9 @@ export default function RegistrationForm() {
       draft.profilePicture = profilePictureBase64;
     });
 
-    const { message, status } = await postData(
-      Endpoints.baseUrl('register'),
-      sendData
-    );
+    const response = await postRequest(Endpoints.register(), sendData);
+
+    const { message, status } = response.data;
 
     const isSuccess = status === RegularPopupVariants.SUCCESS;
     reset();
@@ -50,7 +47,6 @@ export default function RegistrationForm() {
     setLoading(false);
     providePopupSettings({
       text: message,
-      isVisible: true,
       popupVariant: isSuccess
         ? RegularPopupVariants.SUCCESS
         : RegularPopupVariants.ERROR,

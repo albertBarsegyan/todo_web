@@ -1,3 +1,5 @@
+import RegularPopup from '../components/popups/regular.popup';
+import { RegularPopupVariants } from '../constants/componentVariants.constants';
 import React, {
   createContext,
   ReactElement,
@@ -5,11 +7,6 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-
-import RegularPopup from '../components/popups/regular.popup';
-import { RegularPopupVariants } from '../constants/componentVariants.constants';
-
-
 
 interface IPopupProviderProps {
   children: ReactElement;
@@ -41,7 +38,10 @@ const useProvidePopupData = () => {
 
     if (isVisible && timeOutToHide > 0) {
       showTimeout = setTimeout(() => {
-        setPopupSettings((prev: IPopupState) => ({ ...prev, isVisible: false }));
+        setPopupSettings((prev: IPopupState) => ({
+          ...prev,
+          isVisible: false,
+        }));
       }, timeOutToHide * 1000);
     }
 
@@ -53,14 +53,18 @@ const useProvidePopupData = () => {
   }, [isVisible, timeOutToHide]);
 
   const providePopupSettings = (settings: Partial<IPopupState>) => {
-    setPopupSettings((prev: IPopupState) => ({ ...prev, isVisible: true, ...settings }));
+    setPopupSettings((prev: IPopupState) => ({
+      ...prev,
+      isVisible: true,
+      ...settings,
+    }));
   };
 
   return { providePopupSettings, popupSettings };
 };
 
 const popupContext = createContext<TPopupContext>({
-  providePopupSettings: () => { },
+  providePopupSettings: () => {},
   popupSettings: initialState,
 });
 

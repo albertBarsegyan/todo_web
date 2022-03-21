@@ -1,30 +1,28 @@
-export const postData = (endpoint: string, data: any, headers?: any) => {
-  return fetch(endpoint, {
+import axios from '../services/config.services';
+
+export const postRequest = (endpoint: string, data?: any, headers?: any) => {
+  return axios.post(endpoint, data, {
     headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*',
       ...headers,
     },
-    method: 'POST',
-    body: JSON.stringify(data),
-  }).then(res => {
-    if (res.status === 200) {
-      return res.json();
-    }
-    return res;
   });
 };
 
-export const deleteData = (endpoint: string, data: any, headers?: any) => {
-  return fetch(endpoint, {
+export const getRequest = (endpoint: string, headers?: any) => {
+  return axios.get(endpoint, {
+    headers: {
+      ...headers,
+    },
+  });
+};
+
+export const patchRequest = (endpoint: string, data?: any, headers?: any) => {
+  return axios.patch(endpoint, data, { headers });
+};
+
+export const deleteRequest = (endpoint: string, data?: any, headers?: any) => {
+  return axios.delete(endpoint, {
+    data,
     headers,
-    method: 'DELETE',
-    body: JSON.stringify(data),
-  }).then(res => {
-    if (res.status === 200) {
-      return res.json();
-    }
-    return res;
   });
 };
