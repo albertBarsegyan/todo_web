@@ -25,19 +25,17 @@ export default function TodoContainer() {
 
   const handleEnterKey = (e: any) => {
     if (e.key === 'Enter') {
-      postRequest(Endpoints.todo(), { statusId: 2, text: todoText }).then(
+      postRequest(Endpoints.todo(), { status_id: 2, text: todoText }).then(
         res => {
           const { data } = res.data;
 
-          setTodoList(prev => {
-            return [...prev, data];
-          });
+          setTodoList(prev => [...prev, data]);
         }
       );
+
       setToDoText('');
     }
   };
-  console.log('user', todoList);
 
   useEffect(() => {
     if (user?.todos) setTodoList(user?.todos);

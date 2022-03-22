@@ -11,6 +11,6 @@ type TodoStatus = {
 export interface ITodo {
   id: number;
   text: string;
-  userId: number;
+  user_id: number;
   status: TodoStatus;
 }

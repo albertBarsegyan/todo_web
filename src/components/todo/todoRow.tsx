@@ -26,8 +26,6 @@ export default function TodoRow({
   const [isEditable, setIsEditable] = useState(false);
   const { providePopupSettings } = usePopup();
 
-  const statusName = TodoVariants?.[statusState];
-
   const rowStyles = classNames({
     'flex flex-row items-center px-5 py-4 rounded-sm shadow-sm': true,
     'border-b border-green-500': statusState === TodoStatusVariants.done,
@@ -39,6 +37,12 @@ export default function TodoRow({
     'text-xl': true,
     'text-green-500': statusState === TodoStatusVariants.done,
     'text-purple-500': statusState === TodoStatusVariants.in_progress,
+  });
+
+  const textStyles = classNames({
+    'px-4 py-2 border-b-0': true,
+    'text-purple-500': statusState === TodoStatusVariants.in_progress,
+    'text-green-500': statusState === TodoStatusVariants.done,
   });
 
   const handleEnterKey = (e: any) => {
@@ -72,7 +76,7 @@ export default function TodoRow({
   };
 
   const handleStatus = () => {
-    patchRequest(Endpoints.todo(), { id, statusId: 1 }).then(res => {
+    patchRequest(Endpoints.todo(), { id, status_id: 1 }).then(res => {
       const { data, status: responseStatus, message } = res.data;
       const isResponseSuccess = responseStatus === 'success';
 
@@ -102,14 +106,12 @@ export default function TodoRow({
               onKeyDown={handleEnterKey}
             />
           ) : (
-            <span className="px-4 py-2 text-purple-500 border-b-0">
-              {content}
-            </span>
+            <span className={textStyles}>{content}</span>
           )}
         </div>
 
         <div className="flex justify-end w-1/3">
-          <p className={progressStyles}>{statusName}</p>
+          <p className={progressStyles}>{TodoVariants[statusState]}</p>
         </div>
 
         <div className="flex flex-row justify-end w-1/3 flex-end">
