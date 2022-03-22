@@ -13,7 +13,7 @@ axios.defaults.headers.common = {
 
 axios.defaults.baseURL = isDevelopmentMode
   ? 'http://localhost:7000'
-  : process.env?.BASE_URL;
+  : process.env?.REACT_APP_BASE_URL;
 
 axios.defaults.headers.common = {
   Authorization: `Bearer ${getDataFromStorage(localStorageKeys.userToken)}`,
