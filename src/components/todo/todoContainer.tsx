@@ -60,9 +60,9 @@ export default function TodoContainer() {
   };
 
   return (
-    <div className="w-1/2 mt-10 mb-5">
+    <div className="w-full mt-10 mb-5">
       <div>
-        <div>
+        <div className="w-1/2 mx-auto">
           <Input
             placeholder="Provide todo"
             value={todoText}

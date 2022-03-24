@@ -28,8 +28,8 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "NODE_ENV=development react-scripts start ",
-    "build": "NODE_ENV=production react-scripts build",
+    "start": "react-scripts start ",
+    "build": "react-scripts build",
     "lint": "eslint --fix --ext .ts,.tsx .",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

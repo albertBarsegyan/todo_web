@@ -27,7 +27,7 @@ export default function TodoRow({
   const { providePopupSettings } = usePopup();
 
   const rowStyles = classNames({
-    'flex flex-row items-center px-5 py-4 rounded-sm shadow-sm': true,
+    'flex flex-row justify-center items-center px-5 py-4 rounded-sm shadow-sm': true,
     'border-b border-green-500': statusState === TodoStatusVariants.done,
     'border-b border-purple-500':
       statusState === TodoStatusVariants.in_progress,
@@ -40,7 +40,7 @@ export default function TodoRow({
   });
 
   const textStyles = classNames({
-    'px-4 py-2 border-b-0': true,
+    'px-4 py-2 border-b-0 text-left': true,
     'text-purple-500': statusState === TodoStatusVariants.in_progress,
     'text-green-500': statusState === TodoStatusVariants.done,
   });
@@ -96,7 +96,7 @@ export default function TodoRow({
   return (
     <div className="my-4">
       <div className={rowStyles}>
-        <div className="w-1/3 overflow-hidden">
+        <div className="w-2/3 overflow-hidden">
           {isEditable ? (
             <input
               className="px-4 py-2 text-purple-500 border-b focus:outline-none border-b-purple-500"
@@ -106,7 +106,7 @@ export default function TodoRow({
               onKeyDown={handleEnterKey}
             />
           ) : (
-            <span className={textStyles}>{content}</span>
+            <p className={textStyles}>{content}</p>
           )}
         </div>
 
