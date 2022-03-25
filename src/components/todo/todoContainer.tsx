@@ -49,7 +49,7 @@ export default function TodoContainer() {
     const isResponseSuccess = deleteResponseData.status === 'success';
 
     if (isResponseSuccess) {
-      setTodoList(prev => prev.filter(todo => todo.id !== id));
+      setTodoList(prev => prev.filter(todo => todo?.id !== id));
     }
     providePopupSettings({
       text: deleteResponseData.message,
@@ -76,11 +76,11 @@ export default function TodoContainer() {
           {todoList?.map(todo => {
             return (
               <TodoRow
-                id={todo.id}
-                text={todo.text}
-                status={todo.status.name}
-                key={todo.id}
-                handleDelete={deleteTodo(todo.id)}
+                id={todo?.id}
+                text={todo?.text}
+                status={todo?.status?.name}
+                key={todo?.id}
+                handleDelete={deleteTodo(todo?.id)}
               />
             );
           })}
