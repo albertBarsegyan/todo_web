@@ -1,4 +1,5 @@
 import { useAuth } from '../hooks/useAuth';
+import profilePicture from '../assets/images/profilePicture.jpg';
 
 export default function ProfileDescription() {
   const { user } = useAuth();
@@ -12,7 +13,7 @@ export default function ProfileDescription() {
         <span className="text-2xl text-blue-500">{user?.email}</span>
       </div>
       <div className="w-1/3 px-4 py-2 mx-auto overflow-hidden rounded-md shadow-md">
-        <img src={user?.profile_picture} />
+        <img src={user?.profile_picture ?? profilePicture} />
       </div>
     </div>
   );

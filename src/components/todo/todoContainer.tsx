@@ -29,6 +29,7 @@ export default function TodoContainer() {
       postRequest(Endpoints.todo(), { status_id: 2, text: todoText }).then(
         res => {
           const { data } = res.data;
+          console.log('res', res);
 
           setTodoList(prev => [...prev, data]);
         }
@@ -40,7 +41,9 @@ export default function TodoContainer() {
 
   useEffect(() => {
     if (user?.todos) setTodoList(user?.todos);
-  }, []);
+  }, [user]);
+
+  console.log('todo list', todoList);
 
   const deleteTodo = (id: number) => async () => {
     const deleteResponseData = await (
