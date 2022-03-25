@@ -90,23 +90,25 @@ function useAuthProvider() {
   };
 
   useEffect(() => {
-    if (user) {
-      navigate(RoutePaths.HOME);
-      setLoading(false);
-    }
-  }, [user]);
-
-  useEffect(() => {
     if (tokenFromStorage) {
       setLoading(true);
       getRequest(Endpoints.user('me')).then(response => {
         const { data: userData } = response.data;
+
+        console.log('user data', userData);
 
         setUser(userData);
         setLoading(false);
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      navigate(RoutePaths.HOME);
+      setLoading(false);
+    }
+  }, [user]);
 
   return {
     user,
