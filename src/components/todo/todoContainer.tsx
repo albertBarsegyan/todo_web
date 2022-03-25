@@ -43,7 +43,7 @@ export default function TodoContainer() {
     if (user?.todos) setTodoList(user?.todos);
   }, [user]);
 
-  console.log('todo list', todoList);
+  console.log('user', user);
 
   const deleteTodo = (id: number) => async () => {
     const deleteResponseData = await (
