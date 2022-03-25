@@ -13,9 +13,10 @@ import { usePopup } from '../../hooks/usePopup';
 import { useEffect, useState } from 'react';
 
 export default function TodoContainer() {
-  const [todoText, setToDoText] = useState('');
-  const [todoList, setTodoList] = useState<ITodo[] | []>([]);
   const { user } = useAuth();
+  const [todoText, setToDoText] = useState('');
+  const [todoList, setTodoList] = useState<ITodo[] | []>(user?.todos ?? []);
+
   const { providePopupSettings } = usePopup();
 
   const handleChange = (e: any) => {
@@ -39,7 +40,7 @@ export default function TodoContainer() {
 
   useEffect(() => {
     if (user?.todos) setTodoList(user?.todos);
-  }, [user]);
+  }, []);
 
   const deleteTodo = (id: number) => async () => {
     const deleteResponseData = await (
