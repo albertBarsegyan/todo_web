@@ -10,7 +10,7 @@ import { Endpoints } from '../../constants/endpoint.constants';
 import { ITodo } from '../../interfaces/todo.interfaces';
 
 import { usePopup } from '../../hooks/usePopup';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 export default function TodoContainer() {
   const { user } = useAuth();
@@ -29,7 +29,6 @@ export default function TodoContainer() {
       postRequest(Endpoints.todo(), { status_id: 2, text: todoText }).then(
         res => {
           const { data } = res.data;
-          console.log('res', res);
 
           setTodoList(prev => [...prev, data]);
         }
@@ -38,12 +37,6 @@ export default function TodoContainer() {
       setToDoText('');
     }
   };
-
-  useEffect(() => {
-    if (user?.todos) setTodoList(user?.todos);
-  }, [user]);
-
-  console.log('user', user);
 
   const deleteTodo = (id: number) => async () => {
     const deleteResponseData = await (
@@ -77,13 +70,13 @@ export default function TodoContainer() {
         </div>
 
         <div className="mt-5">
-          {todoList?.map(todo => {
+          {todoList?.map((todo, index) => {
             return (
               <TodoRow
                 id={todo?.id}
                 text={todo?.text}
                 status={todo?.status?.name}
-                key={todo?.id}
+                key={todo?.id ?? index}
                 handleDelete={deleteTodo(todo?.id)}
               />
             );
