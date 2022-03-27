@@ -1,5 +1,5 @@
-import { getDataFromStorage } from './../helpers/storage.helpers';
-import { localStorageKeys } from './../constants/localStorage.constants';
+import { getDataFromStorage } from '../helpers/storage.helpers';
+import { localStorageKeys } from '../constants/localStorage.constants';
 
 import axios from 'axios';
 
@@ -14,7 +14,17 @@ axios.defaults.headers.common = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Origin': '*',
   'Cross-Origin-Resource-Policy': 'cross-origin',
-  Authorization: `Bearer ${getDataFromStorage(localStorageKeys.userToken)}`,
 };
+
+axios.interceptors.request.use(config => {
+  const customConfig = {
+    ...config,
+    headers: {
+      Authorization: `Bearer ${getDataFromStorage(localStorageKeys.userToken)}`,
+    },
+  };
+
+  return customConfig;
+});
 
 export default axios;

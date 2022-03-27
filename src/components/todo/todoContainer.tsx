@@ -5,7 +5,7 @@ import {
   RegularPopupVariants,
 } from '../../constants/componentVariants.constants';
 import { useAuth } from '../../hooks/useAuth';
-import { deleteRequest, postRequest } from '../../services/request.services';
+import { deleteRequest, postRequest } from '../../services/request.service';
 import { Endpoints } from '../../constants/endpoint.constants';
 import { ITodo } from '../../interfaces/todo.interfaces';
 

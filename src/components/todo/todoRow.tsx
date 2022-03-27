@@ -3,7 +3,7 @@ import DeleteIcon from '../icons/delete.icon';
 import EditIcon from '../icons/edit.icon';
 import { TodoVariants } from '../../constants/todoVariant.constants';
 import { TodoStatusVariants } from '../../interfaces/todo.interfaces';
-import { patchRequest } from '../../services/request.services';
+import { patchRequest } from '../../services/request.service';
 import { Endpoints } from '../../constants/endpoint.constants';
 import { usePopup } from '../../hooks/usePopup';
 import { RegularPopupVariants } from '../../constants/componentVariants.constants';

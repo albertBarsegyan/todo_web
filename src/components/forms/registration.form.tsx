@@ -4,7 +4,7 @@ import { RegisterFormFieldNames } from '../../constants/form.constants';
 import { RoutePaths } from '../../constants/route.constants';
 import { fileToBase64 } from '../../helpers/file.helpers';
 import { usePopup } from '../../hooks/usePopup';
-import { postRequest } from '../../services/request.services';
+import { postRequest } from '../../services/request.service';
 import { registerFormSchema } from '../../yupSchemas/register.schema';
 import Button from '../buttons/button';
 import { ImageInput } from '../inputs/imageInput';

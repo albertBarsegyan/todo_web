@@ -1,18 +1,14 @@
-import axios from '../services/config.services';
+import axios from './config.service';
 
 export const postRequest = (endpoint: string, data?: any, headers?: any) => {
   return axios.post(endpoint, data, {
-    headers: {
-      ...headers,
-    },
+    headers,
   });
 };
 
 export const getRequest = (endpoint: string, headers?: any) => {
   return axios.get(endpoint, {
-    headers: {
-      ...headers,
-    },
+    headers,
   });
 };
 

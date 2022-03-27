@@ -6,7 +6,7 @@ import {
   deleteRequest,
   getRequest,
   postRequest,
-} from '../services/request.services';
+} from '../services/request.service';
 import { localStorageKeys } from '../constants/localStorage.constants';
 import {
   getDataFromStorage,
